@@ -24,12 +24,10 @@ class UserController
         $user = new User();
         $data = $user->update([
             'id' => 1,
-            'name' => 'Matheus',
-            'email' => 'joao@joao.com'
+            'email' => 'asdasdas@joao.com'
         ]);
 
         var_dump($data);
     }
 
-    
 }

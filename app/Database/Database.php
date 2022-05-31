@@ -43,6 +43,7 @@ abstract class DataBase{
         $sql .= $where;
         
         $where = $this->bind($conditions, $sql);
+        $where->execute();
         return $where->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -90,6 +91,7 @@ abstract class DataBase{
     private function bind($data, $sql)
     {
         $get = $this->connection->prepare($sql);
+
         foreach($data as $key => $value){
             if(gettype($value) == 'string'){
                 $get->bindValue(':' . $key, $value, PDO::PARAM_STR);
