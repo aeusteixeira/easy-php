@@ -1,0 +1,21 @@
+<?php require VIEW_PATH . 'layouts/header.phtml'; ?>
+
+<main class="container">
+    <div class="container-fluid p-5 bg-light">
+        <h1 class="display-5 fw-bold">
+            <?php echo $this->title; ?>
+        </h1>
+        <p class="col-md-8 fs-4">
+            <?php echo $this->description; ?>
+        </p>
+        <hr>
+        <p>
+            <b>
+                E-mail:
+            </b>
+            <?php echo $this->user['email']; ?>
+        </p>
+    </div>
+</main>
+
+<?php require VIEW_PATH . 'layouts/footer.phtml'; ?>
