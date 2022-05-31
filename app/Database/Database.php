@@ -13,19 +13,19 @@ abstract class DataBase{
         $this->connection = new PDO('mysql:host='. $_ENV['DB_HOST'] .';dbname='. $_ENV['DB_DATABASE'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
     }
 
-    public function all($fields = '*')
+    public function all($fields = '*') : array
     {
         $sql = 'SELECT ' . $fields . ' FROM ' . $this->table;
         $stmt = $this->connection->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function find(int $id, $fields = '*')
+    public function find(int $id, $fields = '*') : array
     {
         return current($this->where(['id' => $id], '=', $fields));
     }
 
-    public function where(array $conditions, $operator = ' AND ', $fields = '*')
+    public function where(array $conditions, $operator = ' AND ', $fields = '*') : array
     {
         $sql = 'SELECT ' . $fields . ' FROM ' . $this->table . ' WHERE ';
 
@@ -42,33 +42,20 @@ abstract class DataBase{
 
         $sql .= $where;
         
-        return $this->bind($conditions, $sql);
-         
+        $where = $this->bind($conditions, $sql);
+        return $where->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function create($data)
+    public function create($data) : bool
     {
         $binds = array_keys($data);
         $sql = 'INSERT INTO ' . $this->table . '('. implode(', ', $binds) .')
          VALUES (:'. implode(', :', $binds) .')';
-        return $this->bind($data, $sql);
+        $create = $this->bind($data, $sql);
+        return $create;
     }
 
-    public function bind($data, $sql)
-    {
-        $get = $this->connection->prepare($sql);
-        foreach($data as $key => $value){
-            if(gettype($value) == 'string'){
-                $get->bindValue(':' . $key, $value, PDO::PARAM_STR);
-            }else{
-                $get->bindValue(':' . $key, $value, PDO::PARAM_INT);
-            }
-        }
-        $get->execute();
-        return $get->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function update($data)
+    public function update($data) : bool
     {
         if(!array_key_exists('id', $data)){
             throw new \Exception('Não foi possível atualizar o registro. ID não encontrado.');
@@ -89,16 +76,29 @@ abstract class DataBase{
         $sql .= $set;
         $sql .= ', updated_at = NOW() WHERE id = :id';
 
-        return $this->bind($data, $sql);
+        $update = $this->bind($data, $sql);
+        return $update->execute();
     }
 
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
         $sql = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+        $delete = $this->bind(['id' => $id], $sql);
+        return $delete->execute();
+    }
+
+    private function bind($data, $sql)
+    {
         $get = $this->connection->prepare($sql);
-        $get->bindValue(':id', $id, PDO::PARAM_INT);
-        $get->execute();
-        return $get->fetchAll(PDO::FETCH_ASSOC);
+        foreach($data as $key => $value){
+            if(gettype($value) == 'string'){
+                $get->bindValue(':' . $key, $value, PDO::PARAM_STR);
+            }else{
+                $get->bindValue(':' . $key, $value, PDO::PARAM_INT);
+            }
+        }
+        
+        return $get;
     }
 }
 

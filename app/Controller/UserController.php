@@ -22,8 +22,14 @@ class UserController
     public function show($id)
     {
         $user = new User();
-        $data = $user->delete($id);
+        $data = $user->update([
+            'id' => 1,
+            'name' => 'Matheus',
+            'email' => 'joao@joao.com'
+        ]);
+
         var_dump($data);
     }
+
     
 }
