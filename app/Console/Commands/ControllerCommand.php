@@ -6,6 +6,7 @@ class ControllerCommand extends Command{
 
     private $controller;
     protected $path = 'app/Controller/';
+    protected $type = 'Controller';
 
     public function handle($name)
     {
