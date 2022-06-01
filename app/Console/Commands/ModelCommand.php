@@ -22,7 +22,7 @@ class ModelCommand extends Command{
         $this->model .= "use Exception;\n";
         $this->model .= "use App\Database\DataBase;\n\n";
         $this->model .= "class {$name}{\n";
-        $this->model .= "\tprotected $$table = '{$tableName}';\n";
+        $this->model .= "\tprotected $$table = '{$tableName}s';\n";
         $this->model .= "}\n";
         
         return $this->createFile($name, $this->model);

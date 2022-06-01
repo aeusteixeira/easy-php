@@ -14,10 +14,7 @@ class Controller
 
     public function index()
     {
-        $view = new View('site/index.phtml', [
-            'title' => 'Home',
-            'description' => 'This is the home page',
-        ]);
+        $view = new View('site/index.phtml');
         return $view->render();
     }
 
