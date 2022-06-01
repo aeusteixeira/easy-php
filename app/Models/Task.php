@@ -6,5 +6,5 @@ use Exception;
 use App\Database\DataBase;
 
 class Task{
-	protected $table = 'task';
+	protected $table = 'tasks';
 }
