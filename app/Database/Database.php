@@ -53,7 +53,7 @@ abstract class DataBase{
         $sql = 'INSERT INTO ' . $this->table . '('. implode(', ', $binds) .')
          VALUES (:'. implode(', :', $binds) .')';
         $create = $this->bind($data, $sql);
-        return $create;
+        return $create->execute();
     }
 
     public function update($data) : bool

@@ -1,0 +1,33 @@
+<?php require VIEW_PATH . 'layouts/header.phtml'; ?>
+
+<main class="container">
+    <div class="container-fluid p-5 bg-light">
+        <h1 class="display-5 fw-bold">
+            <?php echo $this->title; ?>
+        </h1>
+        <p class="col-md-8 fs-4">
+            <?php echo $this->description; ?>
+        </p>
+    </div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <form action="<?php route(STORE) ?>" method="post">
+                <div class="form-group mb-2">
+                    <label for="name">Nome</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Nome">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="password">Senha</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Senha">
+                </div>
+                <button type="submit" class="btn btn-success">Criar</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<?php require VIEW_PATH . 'layouts/footer.phtml'; ?>
